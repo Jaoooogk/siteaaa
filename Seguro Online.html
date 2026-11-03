@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seguro Online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef2f5;--surface:#ffffff;--ink:#12243a;--muted:#50627a;--line:#cfd8e1;
+  --alert:#d93c22;--ok:#16797e;--ok-soft:#dff1f1;--alert-soft:#fbe4df;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0e1824;--surface:#16263a;--ink:#e8eef5;--muted:#9fb1c6;--line:#2a3d55;--alert:#ff6b52;--ok:#4cc3c8;--ok-soft:#12383d;--alert-soft:#3d1d1a;color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#0e1824;--surface:#16263a;--ink:#e8eef5;--muted:#9fb1c6;--line:#2a3d55;--alert:#ff6b52;--ok:#4cc3c8;--ok-soft:#12383d;--alert-soft:#3d1d1a;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.6 "IBM Plex Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;line-height:1.1;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ok);outline-offset:3px}
+.wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
+nav{display:flex;gap:1.25rem;flex-wrap:wrap;padding:1rem 0;font-weight:500;border-bottom:1px solid var(--line)}
+nav b{font-family:"Bricolage Grotesque",sans-serif;font-size:1.15rem;margin-right:auto}
+nav a{text-decoration:none;color:var(--muted)}nav a:hover{color:var(--ink)}
+.hero{padding:4.5rem 0 3.5rem}
+.hero h1{font-size:clamp(2.4rem,7vw,5rem);font-weight:800;max-width:15ch}
+.hero p{max-width:46ch;color:var(--muted);font-size:1.2rem;margin:1.5rem 0 2rem}
+.btn{display:inline-block;background:var(--ink);color:var(--bg);padding:.8rem 1.4rem;border-radius:.5rem;font-weight:500;text-decoration:none;border:0;font-size:1rem;cursor:pointer}
+.pulse{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;background:var(--alert);margin-right:.6rem;animation:p 1.6s ease-out infinite}
+@keyframes p{0%{box-shadow:0 0 0 0 var(--alert)}100%{box-shadow:0 0 0 .8rem transparent}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+section{padding:3.5rem 0;border-top:1px solid var(--line)}
+section>.wrap>h2{font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:.6rem}
+.lead{color:var(--muted);max-width:55ch;margin:0 0 2rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1rem;margin-bottom:2rem}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:1.2rem}
+.stat strong{display:block;font:800 2.2rem "Bricolage Grotesque",sans-serif;color:var(--alert)}
+.stat span{color:var(--muted);font-size:.95rem}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:1rem}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:1.3rem}
+.panel h3{font-size:1.2rem;margin-bottom:1rem}
+.bar{margin:.7rem 0}.bar div{display:flex;justify-content:space-between;font-size:.95rem}
+.bar i{display:block;height:.6rem;border-radius:.3rem;background:var(--alert);margin-top:.3rem;width:0;transition:width 1s ease}
+.note{font-size:.85rem;color:var(--muted);margin-top:1rem}
+svg.line{width:100%;height:auto}
+.tl{list-style:none;margin:0;padding:0 0 0 1.4rem;border-left:3px solid var(--ink)}
+.tl li{position:relative;margin-bottom:1rem}
+.tl li::before{content:"";position:absolute;left:-1.95rem;top:1.15rem;width:.85rem;height:.85rem;border-radius:50%;background:var(--bg);border:3px solid var(--alert)}
+details{background:var(--surface);border:1px solid var(--line);border-radius:.6rem}
+summary{cursor:pointer;padding:1rem 1.2rem;list-style:none;display:flex;gap:1rem;align-items:baseline}
+summary::-webkit-details-marker{display:none}
+summary .y{font:800 1.4rem "Bricolage Grotesque",sans-serif;color:var(--alert)}
+summary .t{font-weight:500}
+summary::after{content:"+";margin-left:auto;font-size:1.4rem;color:var(--muted)}
+details[open] summary::after{content:"–"}
+details>div{padding:0 1.2rem 1.2rem}
+details p{margin:.4rem 0}
+.lesson{background:var(--ok-soft);border-radius:.4rem;padding:.6rem .8rem;margin-top:.8rem}
+.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:1.3rem}
+.card h3{font-size:1.25rem;margin-bottom:.8rem}
+.card .risk{color:var(--alert);margin:0 0 .6rem}
+.card .fix{margin:0;color:var(--ok)}
+.card p{margin:0 0 .5rem}
+.quiz{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:1.5rem;max-width:42rem}
+.opts{display:grid;gap:.6rem;margin:1rem 0}
+.opts button{text-align:left;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:.5rem;padding:.8rem 1rem;cursor:pointer}
+.opts button:hover:not(:disabled){border-color:var(--ink)}
+.opts button.right{background:var(--ok-soft);border-color:var(--ok)}
+.opts button.wrong{background:var(--alert-soft);border-color:var(--alert)}
+.fb{min-height:3.2rem;color:var(--muted)}
+.prog{font-size:.9rem;color:var(--muted)}
+footer{padding:2rem 0 3rem;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><b>Seguro Online</b><a href="#painel">Painel</a><a href="#timeline">Linha do tempo</a><a href="#guia">Como se proteger</a><a href="#quiz">Quiz</a></nav>
+
+  <header class="hero">
+    <p style="margin:0 0 1rem;font-weight:500"><span class="pulse"></span>Alerta de golpe em andamento, agora mesmo</p>
+    <h1>Todo dia, alguém clica no link errado.</h1>
+    <p>Veja o tamanho do problema, conheça ataques que marcaram a história e aprenda a se proteger em poucos minutos.</p>
+    <a class="btn" href="#painel">Comece pelo painel</a>
+  </header>
+</div>
+
+<section id="painel"><div class="wrap">
+  <h2>Painel de ameaças</h2>
+  <p class="lead">Os números abaixo são ilustrativos. Antes de apresentar, troque por dados reais do CERT.br, da Febraban ou de relatórios da IBM e da Kaspersky.</p>
+  <div class="stats">
+    <div class="stat"><strong>1 a cada 3</strong><span>pessoas já passaram por uma tentativa de golpe digital (exemplo)</span></div>
+    <div class="stat"><strong>+210%</strong><span>crescimento de incidentes desde 2019 (exemplo)</span></div>
+    <div class="stat"><strong>74%</strong><span>dos ataques envolvem erro humano (exemplo)</span></div>
+    <div class="stat"><strong>R$ 6 mi</strong><span>custo médio de um vazamento para uma empresa (exemplo)</span></div>
+  </div>
+  <div class="charts">
+    <div class="panel">
+      <h3>Ataques mais comuns</h3>
+      <div id="bars"></div>
+      <p class="note">Fonte: dados ilustrativos.</p>
+    </div>
+    <div class="panel">
+      <h3>Incidentes por ano (índice, 2019 = 100)</h3>
+      <svg class="line" viewBox="0 0 320 180" role="img" aria-label="Gráfico de linha com crescimento de incidentes de 2019 a 2025">
+        <g stroke="var(--line)"><line x1="30" y1="150" x2="310" y2="150"/><line x1="30" y1="100" x2="310" y2="100"/><line x1="30" y1="50" x2="310" y2="50"/></g>
+        <polyline id="pl" fill="none" stroke="var(--alert)" stroke-width="3" points=""/>
+        <g id="pts" fill="var(--alert)"></g>
+        <g id="xl" fill="var(--muted)" font-size="11" text-anchor="middle"></g>
+      </svg>
+      <p class="note">Fonte: dados ilustrativos.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="timeline"><div class="wrap">
+  <h2>Ataques que marcaram a história</h2>
+  <p class="lead">Clique em cada caso para ver o que aconteceu e o que ele ensina.</p>
+  <ul class="tl">
+    <li><details><summary><span class="y">2013</span><span class="t">Vazamento da Yahoo</span></summary><div>
+      <p>Contas de usuários foram invadidas. A empresa só revelou o caso anos depois e, em 2017, atualizou o total para cerca de 3 bilhões de contas.</p>
+      <div class="lesson">Lição: a demora em avisar os usuários agrava o dano.</div></div></details></li>
+    <li><details><summary><span class="y">2017</span><span class="t">WannaCry</span></summary><div>
+      <p>Um ransomware se espalhou por mais de 150 países, explorando uma falha do Windows que já tinha correção disponível. Hospitais e empresas ficaram paralisados.</p>
+      <div class="lesson">Lição: atualizar o sistema é uma das defesas mais baratas.</div></div></details></li>
+    <li><details><summary><span class="y">2020</span><span class="t">Ataque ao STJ</span></summary><div>
+      <p>Um ransomware derrubou sistemas do Superior Tribunal de Justiça e interrompeu julgamentos e serviços por dias.</p>
+      <div class="lesson">Lição: backups isolados permitem recuperar sem pagar resgate.</div></div></details></li>
+    <li><details><summary><span class="y">2021</span><span class="t">Megavazamento de dados no Brasil</span></summary><div>
+      <p>Dados pessoais de centenas de milhões de brasileiros foram expostos e colocados à venda, o que alimentou golpes de engenharia social.</p>
+      <div class="lesson">Lição: seus dados vazados viram a isca de golpes personalizados.</div></div></details></li>
+    <li><details><summary><span class="y">2021</span><span class="t">Ataque ao Ministério da Saúde</span></summary><div>
+      <p>Sistemas como o ConecteSUS ficaram fora do ar, o que atrasou a emissão de certificados de vacinação.</p>
+      <div class="lesson">Lição: serviços públicos precisam de plano de continuidade.</div></div></details></li>
+  </ul>
+  <p class="note">Confira os detalhes em fontes jornalísticas e relatórios oficiais antes de apresentar.</p>
+</div></section>
+
+<section id="guia"><div class="wrap">
+  <h2>Como se proteger</h2>
+  <p class="lead">Cinco hábitos que cortam a maior parte do risco.</p>
+  <div class="guide">
+    <div class="card"><h3>Senhas</h3><p class="risk">Risco: reutilizar a mesma senha em vários sites.</p><p class="fix">Use frases longas, um gerenciador de senhas e verificação em duas etapas.</p></div>
+    <div class="card"><h3>Phishing</h3><p class="risk">Risco: e-mail ou SMS urgente com link suspeito.</p><p class="fix">Confira o remetente e abra o site digitando o endereço você mesmo.</p></div>
+    <div class="card"><h3>Pix e WhatsApp</h3><p class="risk">Risco: “parente” pedindo dinheiro de número novo.</p><p class="fix">Ligue para a pessoa antes de pagar e ative a verificação em duas etapas.</p></div>
+    <div class="card"><h3>Wi-Fi público</h3><p class="risk">Risco: redes abertas podem espionar seu acesso.</p><p class="fix">Evite banco e senhas nelas. Prefira dados móveis ou VPN.</p></div>
+    <div class="card"><h3>LGPD</h3><p class="risk">Risco: não saber quem guarda seus dados.</p><p class="fix">Você pode pedir acesso, correção e exclusão dos seus dados às empresas.</p></div>
+  </div>
+</div></section>
+
+<section id="quiz"><div class="wrap">
+  <h2>Teste o que você aprendeu</h2>
+  <p class="lead">Cinco perguntas rápidas.</p>
+  <div class="quiz" id="q" aria-live="polite"></div>
+</div></section>
+
+<footer><div class="wrap">Site de exemplo para apresentação. Substitua os dados ilustrativos por fontes reais e cite-as abaixo de cada gráfico.</div></footer>
+
+<script>
+const bars=[["Phishing",38],["Engenharia social (Pix, WhatsApp)",27],["Ransomware",18],["Vazamento de dados",12],["Outros",5]];
+const bx=document.getElementById("bars");
+bars.forEach(([n,v])=>{bx.insertAdjacentHTML("beforeend",`<div class="bar"><div><span>${n}</span><b>${v}%</b></div><i data-w="${v*2}"></i></div>`)});
+requestAnimationFrame(()=>setTimeout(()=>document.querySelectorAll(".bar i").forEach(e=>e.style.width=e.dataset.w+"%"),100));
+
+const yrs=[2019,2020,2021,2022,2023,2024,2025],val=[100,128,155,190,230,270,310];
+const pts=val.map((v,i)=>[30+i*46.6,150-(v-100)/210*100]);
+document.getElementById("pl").setAttribute("points",pts.map(p=>p.join(",")).join(" "));
+document.getElementById("pts").innerHTML=pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4"/>`).join("");
+document.getElementById("xl").innerHTML=yrs.map((y,i)=>`<text x="${pts[i][0]}" y="170">${y}</text>`).join("");
+
+const Q=[
+["Você recebe um SMS dizendo que sua conta será bloqueada em 1 hora, com um link. O que fazer?",["Clicar rápido para resolver","Abrir o app ou site oficial por conta própria","Responder o SMS"],1,"Mensagens com urgência são sinal clássico de phishing."],
+["Qual senha é a mais segura?",["Joao1990!","cavalo-azul-bicicleta-nuvem","12345678"],1,"Frases longas são mais difíceis de quebrar e mais fáceis de lembrar."],
+["Um “filho” pede Pix de um número novo no WhatsApp. Qual o primeiro passo?",["Fazer o Pix e perguntar depois","Ligar para o número antigo do filho","Enviar seus dados para confirmar"],1,"Confirme a identidade por outro canal antes de pagar."],
+["No Wi-Fi aberto de um café, o que é melhor evitar?",["Ler notícias","Acessar o app do banco","Ouvir música"],1,"Redes abertas podem expor informações sensíveis."],
+["A verificação em duas etapas serve para:",["Deixar o login mais rápido","Proteger a conta mesmo se a senha vazar","Apagar vírus"],1,"Mesmo com a senha, o invasor precisa do segundo fator."]
+];
+let i=0,score=0;const box=document.getElementById("q");
+function show(){
+  if(i>=Q.length){
+    const lvl=score>=5?"Escudo de aço":score>=3?"Escudo de bronze":"Em treinamento";
+    box.innerHTML=`<h3>Você acertou ${score} de ${Q.length}</h3><p>Nível: <b>${lvl}</b></p><button class="btn" id="r">Refazer o quiz</button>`;
+    document.getElementById("r").onclick=()=>{i=0;score=0;show()};return;
+  }
+  const [t,o,c]=Q[i];
+  box.innerHTML=`<div class="prog">Pergunta ${i+1} de ${Q.length}</div><h3>${t}</h3><div class="opts">${o.map((x,k)=>`<button data-k="${k}">${x}</button>`).join("")}</div><div class="fb"></div>`;
+  box.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    const k=+b.dataset.k;if(k===c)score++;
+    box.querySelectorAll("button").forEach((x,n)=>{x.disabled=true;if(n===c)x.classList.add("right");else if(n===k)x.classList.add("wrong")});
+    box.querySelector(".fb").innerHTML=(k===c?"<b>Correto.</b> ":"<b>Não foi dessa vez.</b> ")+Q[i][3]+'<br><button class="btn" style="margin-top:.8rem" id="n">'+(i<Q.length-1?"Próxima pergunta":"Ver resultado")+"</button>";
+    document.getElementById("n").onclick=()=>{i++;show()};
+  });
+}
+show();
+</script>
+</body>
+</html>
