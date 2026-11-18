@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seguro Online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef2f5;--surface:#ffffff;--ink:#12243a;--muted:#50627a;--line:#cfd8e1;
+  --alert:#d93c22;--ok:#16797e;--ok-soft:#dff1f1;--alert-soft:#fbe4df;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0e1824;--surface:#16263a;--ink:#e8eef5;--muted:#9fb1c6;--line:#2a3d55;--alert:#ff6b52;--ok:#4cc3c8;--ok-soft:#12383d;--alert-soft:#3d1d1a;color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#0e1824;--surface:#16263a;--ink:#e8eef5;--muted:#9fb1c6;--line:#2a3d55;--alert:#ff6b52;--ok:#4cc3c8;--ok-soft:#12383d;--alert-soft:#3d1d1a;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.6 "IBM Plex Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;line-height:1.1;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ok);outline-offset:3px}
+.wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
+nav{display:flex;gap:1.25rem;flex-wrap:wrap;padding:1rem 0;font-weight:500;border-bottom:1px solid var(--line)}
+nav b{font-family:"Bricolage Grotesque",sans-serif;font-size:1.15rem;margin-right:auto}
+nav a{text-decoration:none;color:var(--muted)}nav a:hover{color:var(--ink)}
+nav a.tab{color:var(--ink);border-bottom:2px solid var(--alert)}
+nav a[aria-current]{background:var(--ink);color:var(--bg);padding:0 .6rem;border-radius:.4rem;border-bottom-color:transparent}
+.hero{padding:4.5rem 0 3.5rem}
+.hero h1{font-size:clamp(2.4rem,7vw,5rem);font-weight:800;max-width:15ch}
+.hero p{max-width:46ch;color:var(--muted);font-size:1.2rem;margin:1.5rem 0 2rem}
+.btn{display:inline-block;background:var(--ink);color:var(--bg);padding:.8rem 1.4rem;border-radius:.5rem;font-weight:500;text-decoration:none;border:0;font-size:1rem;cursor:pointer}
+.pulse{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;background:var(--alert);margin-right:.6rem;animation:p 1.6s ease-out infinite}
+@keyframes p{0%{box-shadow:0 0 0 0 var(--alert)}100%{box-shadow:0 0 0 .8rem transparent}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+section{padding:3.5rem 0;border-top:1px solid var(--line)}
+section>.wrap>h2{font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:.6rem}
+.lead{color:var(--muted);max-width:55ch;margin:0 0 2rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1rem;margin-bottom:2rem}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:1.2rem}
+.stat strong{display:block;font:800 2.2rem "Bricolage Grotesque",sans-serif;color:var(--alert)}
+.stat span{color:var(--muted);font-size:.95rem;display:block}
+.stat small{display:block;margin-top:.5rem;font-size:.8rem;color:var(--muted)}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:1rem}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:1.3rem}
+.panel h3{font-size:1.2rem;margin-bottom:1rem}
+.bar{margin:.7rem 0}.bar div{display:flex;justify-content:space-between;font-size:.95rem}
+.bar i{display:block;height:.6rem;min-width:.25rem;border-radius:.3rem;background:var(--alert);margin-top:.3rem;width:0;transition:width 1s ease}
+.note{font-size:.85rem;color:var(--muted);margin-top:1rem}
+svg.line{width:100%;height:auto}
+.tl{list-style:none;margin:0;padding:0 0 0 1.4rem;border-left:3px solid var(--ink)}
+.tl li{position:relative;margin-bottom:1rem}
+.tl li::before{content:"";position:absolute;left:-1.95rem;top:1.15rem;width:.85rem;height:.85rem;border-radius:50%;background:var(--bg);border:3px solid var(--alert)}
+details{background:var(--surface);border:1px solid var(--line);border-radius:.6rem}
+summary{cursor:pointer;padding:1rem 1.2rem;list-style:none;display:flex;gap:1rem;align-items:baseline}
+summary::-webkit-details-marker{display:none}
+summary .y{font:800 1.4rem "Bricolage Grotesque",sans-serif;color:var(--alert)}
+summary .t{font-weight:500}
+summary::after{content:"+";margin-left:auto;font-size:1.4rem;color:var(--muted)}
+details[open] summary::after{content:"–"}
+details>div{padding:0 1.2rem 1.2rem}
+details p{margin:.4rem 0}
+.lesson{background:var(--ok-soft);border-radius:.4rem;padding:.6rem .8rem;margin-top:.8rem}
+.src{font-size:.85rem;color:var(--muted);margin-top:.6rem}
+.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:1.3rem}
+.card h3{font-size:1.25rem;margin-bottom:.8rem}
+.card .risk{color:var(--alert);margin:0 0 .6rem}
+.card .fix{margin:0;color:var(--ok)}
+.card p{margin:0 0 .5rem}
+.rel .card{display:flex;flex-direction:column}
+.rel .who{font-size:.85rem;color:var(--muted);margin:0 0 .6rem}
+.rel .loss{font:800 1.5rem "Bricolage Grotesque",sans-serif;color:var(--alert);margin:0 0 .5rem}
+.rel .lesson{margin-top:auto}
+.rel .src{margin-bottom:0}
+.aviso{background:var(--ok-soft);border-radius:.5rem;padding:.9rem 1.1rem;max-width:55rem;margin:0 0 2rem;font-size:.95rem}
+.faq{display:grid;gap:.7rem;max-width:50rem}
+.faq h3{font-size:1.4rem;margin:1.6rem 0 .2rem}
+.faq summary{font-weight:500}
+.faq summary::after{flex:none}
+.faq ul{margin:.4rem 0;padding-left:1.2rem}
+.refs{padding-left:1.2rem;color:var(--muted);font-size:.92rem}
+.refs li{margin-bottom:.5rem}
+
+:root{--qbg:#e4ece5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--qbg:#12302f}}
+:root[data-theme="dark"]{--qbg:#12302f}
+.quiz{background:var(--qbg);border-radius:1.2rem;padding:1.5rem 1.2rem 1.8rem}
+.steps{display:flex;align-items:center;justify-content:center;margin-bottom:1.4rem}
+.steps i{flex:none;width:1.5rem;height:1.5rem;border-radius:50%;border:3px solid var(--ok);background:var(--qbg)}
+.steps i.on{background:var(--ok)}.steps i.cur{box-shadow:0 0 0 3px var(--qbg),0 0 0 5px var(--ok)}
+.steps b{flex:0 0 2.2rem;height:3px;background:var(--ok)}
+.qt{text-align:center;font-size:clamp(1.4rem,3.4vw,2rem);font-weight:600}
+.qs{text-align:center;color:var(--muted);margin:.4rem 0 1.4rem}
+.qg{display:grid;gap:1.2rem;align-items:center}
+@media(min-width:760px){.qg{grid-template-columns:1.15fr 1fr}}
+.opt{display:flex;gap:.8rem;align-items:flex-start;background:var(--surface);border:2px solid transparent;border-radius:.8rem;padding:.9rem 1rem;margin-bottom:.7rem;cursor:pointer;font-size:.97rem;line-height:1.4}
+.opt input{width:1.15rem;height:1.15rem;margin-top:.15rem;accent-color:var(--ok);flex:none}
+.opt.hit{border-color:var(--ok);background:var(--ok-soft)}
+.opt.bad{border-color:var(--alert);background:var(--alert-soft)}
+.opt.miss{border:2px dashed var(--alert)}
+.ex{display:block;font-style:normal;font-size:.88rem;color:var(--muted);margin-top:.35rem}
+.qb{text-align:center;margin-top:1rem}
+.qf{text-align:center;max-width:42rem;margin:1rem auto 0}
+.chk{font:500 1rem "IBM Plex Sans",sans-serif;border:0;border-radius:2rem;padding:.9rem 3.2rem;background:var(--ink);color:var(--bg);cursor:pointer;margin-top:.6rem}
+.chk:disabled{background:#9db3a7;color:#eef3ef;cursor:not-allowed}
+.mk{background:#fff;color:#222;border-radius:.6rem;box-shadow:0 2px 14px rgba(0,0,0,.18);overflow:hidden;font:400 .8rem/1.45 system-ui,sans-serif;max-width:30rem;margin:0 auto}
+.mk .mh{display:flex;align-items:center;gap:.6rem;padding:.55rem .8rem;background:#f1f3f4;border-bottom:1px solid #dadce0;font-weight:600}
+.mk .mh small{display:block;font-weight:400;color:#666}
+.mk .mb{padding:.8rem}
+.mk .bb{background:#e7f3e5;border-radius:.6rem;padding:.5rem .7rem;margin:0 0 .4rem;max-width:90%}
+.mk.sms .bb{background:#e9e9ee}
+.mk.chat .mh{background:#1f7a5a;color:#fff}.mk.chat .mh small{color:#d6efe5}
+.mk.chat .mb{background:#efe9df}.mk.chat .bb{background:#fff}
+.mk .av{width:1.9rem;height:1.9rem;border-radius:50%;background:#9fb1c6;display:inline-block;flex:none}
+.mk .nt{display:flex;gap:.6rem;background:#f7f7f9;border:1px solid #e0e0e6;border-radius:.7rem;padding:.6rem}
+.mk .nt p{margin:.2rem 0 0}
+.mk .ic{width:2rem;height:2rem;flex:none;border-radius:.5rem;background:#16797e;color:#fff;font-style:normal;display:grid;place-items:center;font-weight:700}
+.mk .tb{display:flex;align-items:center;gap:.7rem;padding:.5rem .8rem;border-bottom:1px solid #e3e3e3;color:#555}
+.mk .tb b{color:#c5221f;font-size:.95rem}
+.mk .sub{padding:.6rem .8rem 0;font-size:.95rem}
+.mk .sub u{text-decoration:none;background:#e0e0e0;border-radius:.2rem;padding:0 .3rem;font-size:.7rem;margin-left:.4rem}
+.mk .from{display:flex;gap:.6rem;padding:.6rem .8rem;color:#555}
+.mk .btnx{display:inline-block;border:1px solid #ccc;border-radius:.4rem;padding:.35rem .6rem;margin-top:.5rem;background:#f5f5f5}
+footer{padding:2rem 0 3rem;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><b>Seguro Online</b><a href="#painel">Painel</a><a href="#timeline">Linha do tempo</a><a href="#guia">Como se proteger</a><a href="#quiz">Você cairia?</a><a href="#fontes">Fontes</a><a class="tab" href="#relatos">Relatos</a><a class="tab" href="#entenda">Entenda o tema</a></nav>
+
+  <header class="hero" data-v="home">
+    <p style="margin:0 0 1rem;font-weight:500"><span class="pulse"></span>Golpes digitais acontecem todos os dias</p>
+    <h1>Todo dia, alguém clica no link errado.</h1>
+    <p>Veja o tamanho do problema com dados reais, conheça ataques que marcaram a história e aprenda a se proteger em poucos minutos.</p>
+    <a class="btn" href="#painel">Comece pelo painel</a>
+  </header>
+</div>
+
+<section id="relatos" data-v="relatos" hidden><div class="wrap">
+  <h2>Relatos reais</h2>
+  <p class="lead">Casos de pessoas que caíram em golpes e contaram o que aconteceu à polícia, publicados pela imprensa regional.</p>
+  <p class="aviso"><b>Como estes relatos foram escolhidos:</b> são reportagens baseadas em boletins de ocorrência. Os nomes não são divulgados e os textos foram resumidos com palavras próprias, com link para a matéria original. Não copiamos posts de redes sociais para não expor pessoas nem reproduzir textos de terceiros. Os valores são os informados nas reportagens.</p>
+  <div class="guide rel">
+    <div class="card"><h3>Falso advogado e falso promotor</h3><p class="who">Aposentada · Rio Preto (SP)</p><p class="loss">R$ 60 mil</p><p>Uma mensagem de número desconhecido dizia que o advogado dela estava em audiência. Os criminosos usaram dados do advogado verdadeiro e um deles se passou por promotor para levá-la a fazer Pix. Ela só descobriu ao falar com o advogado de verdade.</p><div class="lesson">Lição: confirme por outro canal, ligando para um número que você já tinha.</div><p class="src"><a href="https://www.diariodaregiao.com.br/cidades/aposentada-perde-rdollar-60-mil-no-golpe-do-falso-advogado-em-rio-preto.1787142078964" target="_blank" rel="noopener">Diário da Região</a></p></div>
+    <div class="card"><h3>Falso gerente e site idêntico ao do banco</h3><p class="who">Empresária, 37 anos · Campo Grande (MS)</p><p class="loss">R$ 29.885,64</p><p>Um homem se passou por gerente e a levou a um site parecido com o do banco. Ela achou que cumpria um procedimento normal e só percebeu o golpe ao consultar a conta.</p><div class="lesson">Lição: banco não pede para você “regularizar” nada por link enviado a você.</div><p class="src"><a href="https://acritica.net/policia/empresaria-perde-quase-r-30-mil-em-golpe-de-falso-gerente-de-banco-em-campo-grande/" target="_blank" rel="noopener">A Crítica</a></p></div>
+    <div class="card"><h3>“Cancelar” fraudes que não existiam</h3><p class="who">Empresário · Rio Preto (SP)</p><p class="loss">R$ 53 mil</p><p>O criminoso disse que a conta tinha movimentações fraudulentas e que o celular estava clonado. Convenceu a vítima a fazer transferências para “cancelar” as fraudes. A mesma reportagem registra um casal de aposentados que perdeu cerca de R$ 11,6 mil no golpe do falso advogado.</p><div class="lesson">Lição: ninguém legítimo manda você transferir dinheiro para se proteger.</div><p class="src"><a href="https://www.diariodaregiao.com.br/cidades/empresario-perde-rdollar-53-mil-em-golpe-de-falso-gerente-bancario-em-rio-preto.1793277089933" target="_blank" rel="noopener">Diário da Região</a></p></div>
+    <div class="card"><h3>Falso advogado e conta invadida</h3><p class="who">Mulher · Campo Grande (MS)</p><p class="loss">R$ 31 mil</p><p>Ela só percebeu que era golpe depois de transferir o dinheiro e de ter a conta invadida. A Polícia Civil orienta desligar na hora diante de ligação estranha pedindo confirmação de dados e nunca clicar em links de terceiros.</p><div class="lesson">Lição: desligar é sempre uma resposta possível.</div><p class="src"><a href="https://campograndenews.com.br/cidades/capital/mulher-e-enganada-por-falso-advogado-tem-conta-invadida-e-perde-r-31-mil" target="_blank" rel="noopener">Campo Grande News</a></p></div>
+    <div class="card"><h3>A “filha” com débitos urgentes</h3><p class="who">Mulher, 50 anos · Juiz de Fora (MG)</p><p class="loss">R$ 6.749</p><p>Os golpistas usaram a foto da filha no perfil do WhatsApp e alegaram necessidade urgente de quitar débitos. Ela fez as transferências acreditando ajudar a filha.</p><div class="lesson">Lição: foto de perfil não prova identidade. Ligue antes de pagar.</div><p class="src"><a href="https://www.itatiaia.com.br/juizdefora/pcmg-investiga-caso-de-estelionato-sofrido-por-mulher-em-juiz-de-fora/" target="_blank" rel="noopener">Itatiaia</a></p></div>
+    <div class="card"><h3>Mensagem de “amigo” e celular travado</h3><p class="who">Cozinheiro, 50 anos · Rio Preto (SP)</p><p class="loss">cerca de R$ 4 mil</p><p>Recebeu mensagens do número de um amigo pedindo ajuda com uma transação via Pix. Ao abrir o conteúdo enviado, o celular travou, reiniciou e ele perdeu o acesso ao aparelho.</p><div class="lesson">Lição: um contato conhecido também pode estar sendo usado por criminosos.</div><p class="src"><a href="https://www.diariodaregiao.com.br/cidades/golpe-do-whatsapp-faz-vitima-perder-rdollar-4-mil-em-rio-preto.1775914392273" target="_blank" rel="noopener">Diário da Região</a></p></div>
+    <div class="card"><h3>Código de “grupo religioso”</h3><p class="who">Idoso, 69 anos</p><p class="loss">WhatsApp clonado</p><p>Um criminoso se passou por organizador de um grupo religioso e pediu dados pessoais. Depois de seguir as instruções, o idoso perdeu o acesso ao aplicativo e seus contatos começaram a receber pedidos de dinheiro.</p><div class="lesson">Lição: nunca informe códigos de verificação que chegam por SMS.</div><p class="src"><a href="https://oestadoonline.com.br/destaque-policial/idoso-tem-celular-clonado-apos-golpe-com-falso-grupo-religioso-no-whatsapp/" target="_blank" rel="noopener">O Estado Online</a></p></div>
+    <div class="card"><h3>Taxa antecipada por uma promessa</h3><p class="who">Jovem, 20 anos · Dourados (MS)</p><p class="loss">R$ 550</p><p>Prometeram R$ 3 mil se ele pagasse antes uma taxa. O dinheiro nunca chegou e o golpista pediu um novo pagamento. Dessa vez ele recusou e registrou o caso na delegacia.</p><div class="lesson">Lição: quem pede pagamento adiantado para você receber dinheiro está aplicando golpe.</div><p class="src"><a href="https://acritica.net/policia/jovem-perde-dinheiro-golpe-pix-dourados/" target="_blank" rel="noopener">A Crítica</a></p></div>
+    <div class="card"><h3>O “Pix errado”</h3><p class="who">Caso divulgado pela conta Um Golpe por Dia</p><p class="loss">R$ 700</p><p>Um homem recebeu um Pix por engano e o remetente pediu o dinheiro de volta. O pedido foi feito junto com o uso do Mecanismo Especial de Devolução (MED), o recurso do Banco Central para recuperar valores de golpes, de forma indevida.</p><div class="lesson">Lição: devolva só pelo próprio banco, nunca por transferência a outra conta.</div><p class="src"><a href="https://www.folhavitoria.com.br/policia/saiba-como-funciona-o-golpe-do-estorno-do-pix/" target="_blank" rel="noopener">Folha Vitória</a></p></div>
+  </div>
+</div></section>
+
+<section id="entenda" data-v="entenda" hidden><div class="wrap">
+  <h2>Entenda o tema</h2>
+  <p class="lead">Golpes digitais enganam a pessoa, e não só a tecnologia. O criminoso cria uma história convincente, com urgência, medo ou promessa de ganho, para você mesmo entregar dinheiro, senha ou um código. Esse truque se chama <b>engenharia social</b>. Abaixo, as dúvidas mais comuns.</p>
+  <div class="faq">
+    <h3>O básico</h3>
+    <details><summary>O que é phishing?</summary><div><p>É uma mensagem falsa (e-mail, SMS, WhatsApp) que imita uma empresa ou pessoa para levar você a clicar num link, instalar algo ou digitar dados numa página falsa. Foi o principal tipo de fraude notificado ao CERT.br em 2025, como mostra o painel.</p></div></details>
+    <details><summary>Qual a diferença entre golpe, vazamento e invasão?</summary><div><ul><li><b>Golpe:</b> você é enganado e faz algo, como pagar ou informar um código.</li><li><b>Vazamento:</b> dados de uma empresa ou órgão são expostos. Você não fez nada de errado.</li><li><b>Invasão:</b> alguém entra numa conta ou sistema sem permissão, muitas vezes com uma senha roubada.</li></ul><p>Um leva ao outro: dados vazados servem de isca para golpes personalizados.</p></div></details>
+    <details><summary>O que é ransomware?</summary><div><p>É um programa que bloqueia ou criptografa os arquivos de um computador ou rede e exige pagamento para devolvê-los. O ataque ao STJ em 2020, na linha do tempo, é um exemplo. Backups isolados e sistema atualizado são as melhores defesas.</p></div></details>
+    <details><summary>Por que tanta gente cai, até quem entende de tecnologia?</summary><div><p>Porque o golpe mira emoções, e não a técnica: pressa, medo de perder dinheiro, vontade de ajudar um familiar. Como o criminoso muitas vezes já sabe seu nome ou dados bancários (vindos de vazamentos), a história parece verdadeira. Os relatos da aba anterior mostram isso.</p></div></details>
+
+    <h3>Golpes mais comuns</h3>
+    <details><summary>Como funciona o golpe do falso parente ou do WhatsApp clonado?</summary><div><p>Há dois jeitos. No primeiro, o criminoso usa a foto de um parente num número novo e pede dinheiro com urgência. No segundo, ele clona ou toma sua conta, em geral ao conseguir o código de verificação, e escreve para os seus contatos. Em ambos, ligue para a pessoa antes de pagar e ative a verificação em duas etapas.</p></div></details>
+    <details><summary>O banco pode me ligar pedindo transferência para “proteger” minha conta?</summary><div><p>Não. É o golpe do falso gerente ou da falsa central: o criminoso diz que há fraude, cita dados seus e pede que você transfira, instale algo ou informe códigos. Se isso acontecer, desligue e ligue você mesmo para o número oficial do banco, que está no cartão ou no aplicativo.</p></div></details>
+    <details><summary>O que é o golpe do “Pix errado” e o que é o MED?</summary><div><p>O criminoso envia um Pix de verdade e pede a devolução para <i>outra</i> conta. Depois aciona o MED, mecanismo do Banco Central para recuperar dinheiro de fraudes, e o valor sai da sua conta também, o que gera prejuízo em dobro. Se receber um Pix por engano, devolva apenas pelo recurso de devolução do próprio banco. Segundo reportagem, quem enviou o Pix tem até 80 dias para pedir o MED, e quem sofreu devolução indevida tem o mesmo prazo para contestar (<a href="https://www.gaz.com.br/nova-regra-do-pix-amplia-prazo-para-contestar-golpe-entenda/" target="_blank" rel="noopener">GAZ</a>; <a href="https://www.em.com.br/mundo-corporativo/2026/05/7424123-golpe-do-pix-errado-cresce-e-engana-vitimas-no-brasil.html" target="_blank" rel="noopener">Estado de Minas</a>).</p></div></details>
+    <details><summary>O que é o “Pix agendado”?</summary><div><p>O golpista mostra o print de um Pix agendado como se fosse uma transferência concluída e pede que você “devolva” o valor. Depois cancela o agendamento, e você fica sem o dinheiro. Confira sempre o saldo no seu aplicativo, nunca só o print (<a href="https://meutudo.com.br/blog/golpe-do-pix/" target="_blank" rel="noopener">Meutudo</a>).</p></div></details>
+    <details><summary>Existe vírus que altera o Pix no celular?</summary><div><p>Sim. O Idec descreve softwares maliciosos que interferem em transferências Pix feitas no celular da vítima para desviar o dinheiro sem levantar suspeitas, e o alvo é o aparelho, não um banco específico. Instale apps só das lojas oficiais, mantenha o sistema atualizado e evite usar o celular comprometido para operações financeiras (<a href="https://idec.org.br/dicas-e-direitos/pixrevolution-venom-e-gopix-entenda-os-novos-malwares-que-alteram-transferencias-e" target="_blank" rel="noopener">Idec</a>).</p></div></details>
+
+    <h3>Se você caiu</h3>
+    <details><summary>Caí num golpe. O que faço agora?</summary><div><ul><li>Avise o banco imediatamente e conteste a transação pelo aplicativo. Desde outubro de 2025, os participantes do Pix devem oferecer essa função de autoatendimento (<a href="https://juridico.ai/?p=22911" target="_blank" rel="noopener">Jurídico AI</a>).</li><li>Troque as senhas, tire o acesso de aparelhos desconhecidos e ative a verificação em duas etapas.</li><li>Guarde prints, números, comprovantes e conversas.</li><li>Registre boletim de ocorrência, que pode ser online em muitos estados.</li><li>Avise seus contatos se sua conta foi clonada.</li></ul><p>Quanto mais rápido, maior a chance de bloquear o valor.</p></div></details>
+    <details><summary>O banco devolve o dinheiro?</summary><div><p>Não há garantia. Depende do tipo de golpe, das provas, da rapidez e de o dinheiro ainda estar na conta do golpista. A confirmação do Pix pela própria vítima não exclui sozinha uma possível responsabilidade do banco, que também depende das medidas de segurança e das movimentações (<a href="https://juridico.ai/?p=22911" target="_blank" rel="noopener">Jurídico AI</a>). Em caso de dúvida, procure o Procon ou um advogado.</p></div></details>
+    <details><summary>Vale registrar boletim de ocorrência mesmo com valor pequeno?</summary><div><p>Sim. O registro formaliza o que aconteceu, ajuda a investigação e pode servir em medidas administrativas ou judiciais. A Polícia Civil também orienta denunciar para abrir linha de investigação, pois muitos golpes se repetem com outras vítimas.</p></div></details>
+
+    <h3>Dados, senhas e a lei</h3>
+    <details><summary>Meus dados vazaram. E agora?</summary><div><p>Troque as senhas dos serviços afetados e ative a verificação em duas etapas. Desconfie de quem ligar ou escrever já sabendo seu CPF, endereço ou dívidas, porque isso pode vir do vazamento. Pela LGPD, você pode pedir à empresa acesso, correção e exclusão dos seus dados e, se não for atendido, reclamar à ANPD.</p></div></details>
+    <details><summary>Como criar uma senha segura?</summary><div><p>Prefira frases longas e diferentes para cada serviço, como “cavalo-azul-bicicleta-nuvem”, guardadas em um gerenciador de senhas. Depois ative a verificação em duas etapas, que protege a conta mesmo se a senha vazar.</p></div></details>
+    <details><summary>Como saber se um link ou site é falso?</summary><div><ul><li>Desconfie de urgência, ameaça ou prêmio fácil.</li><li>Confira o endereço completo antes de digitar qualquer dado, porque sites falsos copiam o visual do banco.</li><li>Prefira abrir o app oficial ou digitar o endereço você mesmo.</li><li>Nunca passe códigos recebidos por SMS ou WhatsApp.</li></ul></div></details>
+    <details><summary>Pessoas idosas são mais atingidas?</summary><div><p>Elas aparecem com frequência nos relatos, em golpes como falso advogado, falso parente e falsa central. Mas os casos incluem jovens, empresários e profissionais de todas as idades. Conversar em família sobre esses golpes e combinar uma palavra de confirmação ajuda a proteger todo mundo.</p></div></details>
+  </div>
+  <p class="note">Estas respostas são informativas e não substituem orientação jurídica ou do seu banco.</p>
+</div></section>
+
+<section id="painel" data-v="home"><div class="wrap">
+  <h2>Painel de ameaças</h2>
+  <p class="lead">Dados de fontes públicas, com referência em cada número. As bases medem coisas diferentes, então não devem ser somadas ou comparadas entre si.</p>
+  <div class="stats">
+    <div class="stat"><strong>51%</strong><span>dos brasileiros foram vítimas de alguma fraude em 2024; em 54,2% dos casos houve prejuízo financeiro</span><small>Serasa Experian, Relatório de Identidade e Fraude 2025 [<a href="#f1">1</a>]</small></div>
+    <div class="stat"><strong>553 mi</strong><span>de tentativas de phishing bloqueadas no Brasil em 12 meses, cerca de 80% a mais que no período anterior</span><small>Kaspersky, período de 2024/2025 [<a href="#f2">2</a>]</small></div>
+    <div class="stat"><strong>62%</strong><span>das violações de dados confirmadas no mundo envolveram o elemento humano</span><small>Verizon, DBIR 2026 [<a href="#f3">3</a>]</small></div>
+    <div class="stat"><strong>R$ 7,44 mi</strong><span>custo médio de uma violação de dados para uma empresa brasileira (saúde: R$ 12,55 mi)</span><small>IBM/Ponemon, edição 2026 [<a href="#f4">4</a>]</small></div>
+  </div>
+  <div class="charts">
+    <div class="panel">
+      <h3>Notificações ao CERT.br por tipo, 2025</h3>
+      <div id="bars"></div>
+      <p class="note">Total: 470.885 notificações voluntárias. “Scan” são varreduras e tentativas sem sucesso, não invasões. Dentro de fraude, 22.818 das 24.030 notificações foram phishing. Fonte: CERT.br, via OpServices [<a href="#f5">5</a>].</p>
+    </div>
+    <div class="panel">
+      <h3>Notificações ao CERT.br por ano (em milhares)</h3>
+      <svg class="line" viewBox="0 0 320 190" role="img" aria-label="Gráfico de linha com as notificações de incidentes ao CERT.br: 875 mil em 2019, 665 mil em 2020, 457 mil em 2021, 622 mil em 2023, 517 mil em 2024 e 471 mil em 2025">
+        <g stroke="var(--line)"><line x1="30" y1="150" x2="310" y2="150"/><line x1="30" y1="100" x2="310" y2="100"/><line x1="30" y1="50" x2="310" y2="50"/></g>
+        <polyline id="pl" fill="none" stroke="var(--alert)" stroke-width="3" points=""/>
+        <g id="pts" fill="var(--alert)"></g>
+        <g id="vl" fill="var(--ink)" font-size="10" text-anchor="middle"></g>
+        <g id="xl" fill="var(--muted)" font-size="11" text-anchor="middle"></g>
+      </svg>
+      <p class="note">O total caiu desde 2019, mas a série é de notificações voluntárias: reflete quem decide avisar, não o total de ataques. O valor de 2022 não foi localizado e está omitido. Fontes: CERT.br [<a href="#f6">6</a>] e [<a href="#f5">5</a>].</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="timeline" data-v="home"><div class="wrap">
+  <h2>Ataques que marcaram a história</h2>
+  <p class="lead">Clique em cada caso para ver o que aconteceu e o que ele ensina.</p>
+  <ul class="tl">
+    <li><details><summary><span class="y">2013</span><span class="t">Vazamento da Yahoo</span></summary><div>
+      <p>Em 2013, hackers invadiram contas da Yahoo. A empresa admitiu em 2016 um total de mais de 1 bilhão de contas e, em outubro de 2017, informou que todas as cerca de 3 bilhões de contas foram afetadas. Segundo a empresa, senhas em texto claro e dados bancários não foram levados.</p>
+      <div class="lesson">Lição: a demora em medir e avisar o tamanho do vazamento agrava o dano.</div>
+      <p class="src">Fontes: <a href="https://www.tecmundo.com.br/mercado/122657-problemao-ataque-2013-afetou-3-bilhoes-contas-yahoo.htm" target="_blank" rel="noopener">TecMundo</a>; <a href="https://olhardigital.com.br/2017/10/04/noticias/yahoo-revela-que-todos-os-seus-3-bilhoes-de-usuarios-tiveram-dados-vazados/" target="_blank" rel="noopener">Olhar Digital</a></p></div></details></li>
+    <li><details><summary><span class="y">2017</span><span class="t">WannaCry</span></summary><div>
+      <p>Em 12 de maio de 2017, o ransomware infectou mais de 200 mil computadores em cerca de 150 países. Ele explorava uma falha do Windows que a Microsoft corrigiu em 14 de março (atualização MS17-010), quase dois meses antes.</p>
+      <div class="lesson">Lição: atualizar o sistema é uma das defesas mais baratas.</div>
+      <p class="src">Fontes: <a href="https://tecnoblog.net/214656/wannacry-ataque-disseminacao-150-paises/" target="_blank" rel="noopener">Tecnoblog</a>; <a href="https://olhardigital.com.br/especial/wannacry/" target="_blank" rel="noopener">Olhar Digital</a></p></div></details></li>
+    <li><details><summary><span class="y">2020</span><span class="t">Ataque ao STJ</span></summary><div>
+      <p>Em 3 de novembro de 2020, uma invasão com criptografia derrubou a rede do Superior Tribunal de Justiça durante as sessões de julgamento. Atividades e prazos foram suspensos, e os sistemas voltaram aos poucos ao longo de cerca de duas semanas. O tribunal informou que os dados estavam preservados em backup.</p>
+      <div class="lesson">Lição: backups isolados permitem recuperar sem pagar resgate.</div>
+      <p class="src">Fontes: <a href="https://www.conjur.com.br/2020-nov-05/stj-processos-preservados-conta-inteligencia-exercito//?print=1" target="_blank" rel="noopener">ConJur</a>; <a href="https://www.migalhas.com.br/coluna/migalhas-de-protecao-de-dados/337701/39-dias-apos-o-ataque-cibernetico-ao-stj--reflexoes-e-desafios" target="_blank" rel="noopener">Migalhas</a></p></div></details></li>
+    <li><details><summary><span class="y">2021</span><span class="t">Megavazamento de dados no Brasil</span></summary><div>
+      <p>Em janeiro de 2021, o laboratório dfndr lab (PSafe) revelou uma base à venda com dados de cerca de 223 milhões de pessoas, com CPF, endereço, telefone e outras informações. A ANPD e a Polícia Federal passaram a investigar, e outros vazamentos se seguiram ao longo do ano.</p>
+      <div class="lesson">Lição: seus dados vazados viram a isca de golpes personalizados.</div>
+      <p class="src">Fontes: <a href="https://tecnoblog.net/especiais/megavazamento-de-223-milhoes-de-cpfs-um-ano-se-passou-e-ainda-ha-perguntas-sem-resposta/" target="_blank" rel="noopener">Tecnoblog</a>; <a href="https://idec.org.br/idec-na-imprensa/vazamentos-de-dados-acendem-alerta-para-os-crimes-financeiros" target="_blank" rel="noopener">Idec (reportagem de A Tarde)</a></p></div></details></li>
+    <li><details><summary><span class="y">2021</span><span class="t">Ataque ao Ministério da Saúde</span></summary><div>
+      <p>Em 10 de dezembro de 2021, o grupo Lapsus$ atacou o site do ministério. O ConecteSUS, que emite o certificado de vacinação, ficou fora do ar até 23 de dezembro.</p>
+      <div class="lesson">Lição: serviços públicos precisam de plano de continuidade.</div>
+      <p class="src">Fontes: <a href="https://istoedinheiro.com.br/aplicativo-conectesus-e-restabelecido-diz-ministerio-da-saude" target="_blank" rel="noopener">IstoÉ Dinheiro</a>; <a href="https://tecnoblog.net/noticias/pf-realiza-operacao-para-investigar-ataque-hacker-que-derrubou-conectesus/" target="_blank" rel="noopener">Tecnoblog</a></p></div></details></li>
+  </ul>
+</div></section>
+
+<section id="guia" data-v="home"><div class="wrap">
+  <h2>Como se proteger</h2>
+  <p class="lead">Cinco hábitos que cortam a maior parte do risco.</p>
+  <div class="guide">
+    <div class="card"><h3>Senhas</h3><p class="risk">Risco: reutilizar a mesma senha em vários sites.</p><p class="fix">Use frases longas, um gerenciador de senhas e verificação em duas etapas.</p></div>
+    <div class="card"><h3>Phishing</h3><p class="risk">Risco: e-mail ou SMS urgente com link suspeito. Foi o principal tipo de fraude notificado ao CERT.br em 2025 [<a href="#f5">5</a>].</p><p class="fix">Confira o remetente e abra o site digitando o endereço você mesmo.</p></div>
+    <div class="card"><h3>Pix e WhatsApp</h3><p class="risk">Risco: “parente” pedindo dinheiro de número novo.</p><p class="fix">Ligue para a pessoa antes de pagar e ative a verificação em duas etapas.</p></div>
+    <div class="card"><h3>Wi-Fi público</h3><p class="risk">Risco: redes abertas podem espionar seu acesso.</p><p class="fix">Evite banco e senhas nelas. Prefira dados móveis ou VPN.</p></div>
+    <div class="card"><h3>LGPD</h3><p class="risk">Risco: não saber quem guarda seus dados.</p><p class="fix">Você pode pedir acesso, correção e exclusão dos seus dados às empresas.</p></div>
+  </div>
+</div></section>
+
+<section id="quiz" data-v="home"><div class="wrap">
+  <h2>Você cairia nesse golpe?</h2>
+  <p class="lead">Veja cinco mensagens e marque todos os sinais que indicam golpe. Nem todas são falsas: uma delas é legítima. As mensagens e marcas são fictícias, criadas para o exercício.</p>
+  <div class="quiz" id="q" aria-live="polite"></div>
+</div></section>
+
+<section id="fontes" data-v="home"><div class="wrap">
+  <h2>Fontes</h2>
+  <ol class="refs">
+    <li id="f1">Serasa Experian, Relatório de Identidade e Fraude 2025, citado em <a href="https://movimentoeconomico.com.br/?p=114827" target="_blank" rel="noopener">Movimento Econômico</a>.</li>
+    <li id="f2">Kaspersky, dados de phishing bloqueado no Brasil, citados em <a href="https://www.clicportela.com.br/noticia/166194/golpes-digitais-no-brasil-crescem-e-elevam-riscos" target="_blank" rel="noopener">Clic Portela</a>. O período é aproximado (2024/2025).</li>
+    <li id="f3">Verizon, Data Breach Investigations Report 2026, citado em <a href="https://www.securityweek.com/verizon-dbir-2026-vulnerability-exploitation-overtakes-credential-theft-as-top-breach-vector/" target="_blank" rel="noopener">SecurityWeek</a>. Dados globais, não só do Brasil.</li>
+    <li id="f4">IBM/Ponemon Institute, Relatório do Custo das Violações de Dados 2026, citado em <a href="https://canaltech.com.br/seguranca/custo-de-violacao-de-dados-bate-recorde-no-brasil-e-chega-a-r-744-milhoes/" target="_blank" rel="noopener">Canaltech</a> e <a href="https://convergenciadigital.com.br/mercado/custo-medio-de-uma-violacao-de-dados-no-brasil-bate-recorde-e-chega-a-r-744-milhoes/" target="_blank" rel="noopener">Convergência Digital</a>.</li>
+    <li id="f5">CERT.br/NIC.br, <a href="https://stats.cert.br/incidentes/" target="_blank" rel="noopener">Incidentes Notificados</a>. Números de 2023 a 2025 e por tipo conforme <a href="https://www.opservices.com.br/estatisticas-de-incidentes-no-brasil/" target="_blank" rel="noopener">OpServices</a>, consulta em agosto de 2026.</li>
+    <li id="f6">CERT.br, apresentações com totais anuais: 2019 (875.327) em <a href="https://www.cert.br/palestras/certbr-ensi2020.pdf" target="_blank" rel="noopener">ENSI 2020</a>; 2020 (665.079) em <a href="https://www2.cert.br/docs/palestras/certbr-bancofibra2021.pdf" target="_blank" rel="noopener">Banco Fibra 2021</a>; 2021 (457.270) em <a href="https://www.cert.br/palestras/certbr-trf12022.pdf" target="_blank" rel="noopener">TRF1 2022</a>.</li>
+  </ol>
+</div></section>
+
+<footer><div class="wrap">Dados consultados em novembro de 2026. Confira as fontes originais antes de reutilizar os números.</div></footer>
+
+<script>
+function route(){
+  const h=location.hash.slice(1),t=(h==="relatos"||h==="entenda")?h:"home";
+  document.querySelectorAll("[data-v]").forEach(e=>e.hidden=e.dataset.v!==t);
+  document.querySelectorAll("nav a").forEach(a=>a.removeAttribute("aria-current"));
+  const a=document.querySelector('nav a[href="#'+h+'"]');
+  if(t!=="home"&&a)a.setAttribute("aria-current","page");
+  const el=t==="home"&&h?document.getElementById(h):null;
+  if(el)el.scrollIntoView();else window.scrollTo(0,0);
+}
+addEventListener("hashchange",route);
+
+const bars=[["Scan (varreduras)",83.66],["DoS (negação de serviço)",5.61],["Fraude (phishing e malware)",5.10],["Web (sites invadidos)",4.24],["Invasão",0.79]];
+const bx=document.getElementById("bars");
+bars.forEach(([n,v])=>{bx.insertAdjacentHTML("beforeend",`<div class="bar"><div><span>${n}</span><b>${String(v).replace(".",",")}%</b></div><i data-w="${v}"></i></div>`)});
+requestAnimationFrame(()=>setTimeout(()=>document.querySelectorAll(".bar i").forEach(e=>e.style.width=e.dataset.w+"%"),100));
+
+const data=[[2019,875327],[2020,665079],[2021,457270],[2023,621537],[2024,516556],[2025,470885]];
+const pts=data.map(([y,v])=>[30+(y-2019)*46.6,150-v/900000*115]);
+document.getElementById("pl").setAttribute("points",pts.map(p=>p.join(",")).join(" "));
+document.getElementById("pts").innerHTML=pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4"/>`).join("");
+document.getElementById("vl").innerHTML=pts.map((p,i)=>`<text x="${p[0]}" y="${p[1]-9}">${Math.round(data[i][1]/1000)}</text>`).join("");
+document.getElementById("xl").innerHTML=data.map(([y],i)=>`<text x="${pts[i][0]}" y="170">${y}</text>`).join("");
+
+const S=[
+{q:"Como você percebe que isso é golpe?",golpe:true,
+ m:`<div class="mk sms"><div class="mh">Mensagens<small>BancoNova</small></div><div class="mb"><div class="bb">BancoNova informa: sua conta será BLOQUEADA em 1 hora. Para evitar, confirme seu CPF e senha em bancon0va-seguro.com/entrar</div><small>hoje, 14:02</small></div></div>`,
+ o:[["Pela mensagem citar o nome do banco.",0,"Citar o nome do banco não prova nada: golpistas copiam nomes e logos."],["Pela urgência: a conta seria bloqueada em 1 hora.",1,"Urgência e ameaça fazem você agir sem pensar."],["Pelo link, que imita o do banco com um zero no lugar do “o”.",1,"Endereços parecidos enganam. Abra o app oficial por conta própria."],["Por pedir CPF e senha por mensagem.",1,"Banco não pede senha por mensagem."]]},
+{q:"Como você percebe que isso é golpe?",golpe:true,
+ m:`<div class="mk chat"><div class="mh"><i class="av"></i><div>Filho<small>número não salvo na agenda</small></div></div><div class="mb"><div class="bb">Oi mãe, troquei de número, o antigo caiu na água.</div><div class="bb">Pode fazer um Pix pra mim agora? Te devolvo amanhã.</div><div class="bb">A chave é de uma empresa, é o boleto do fornecedor.</div></div></div>`,
+ o:[["Por ser um número novo, com a história de que o antigo “caiu na água”.",1,"É a história clássica do falso parente. Confirme ligando para o número antigo ou para outro familiar."],["Pela foto de perfil, que parece ser a do seu filho.",0,"A foto não é prova: qualquer pessoa copia uma foto de perfil."],["Pela chave Pix, que está em nome de uma empresa.",1,"A chave está em nome de terceiro, não do seu filho."],["Pelo pedido de Pix com pressa, com promessa de devolver amanhã.",1,"Pedido de dinheiro com pressa, por mensagem, é o sinal central."]]},
+{q:"Esta notificação tem sinais de golpe?",golpe:false,
+ m:`<div class="mk"><div class="mh">Notificações</div><div class="mb"><div class="nt"><i class="ic">B</i><div><b>BancoNova</b><p>Novo acesso à sua conta em um aparelho Android. Se foi você, não precisa fazer nada. Se não reconhece, abra o aplicativo e troque sua senha.</p></div></div></div></div>`,
+ o:[["Sim, ela traz um link para clicar.",0,"Não traz link: manda você abrir o aplicativo por conta própria."],["Sim, ela pede senha ou dados.",0,"Não pede nada, só orienta a trocar a senha dentro do app."],["Sim, ela ameaça bloquear a conta com um prazo curto.",0,"Não há ameaça nem prazo."],["Não: não tem link, não pede dados e não pressiona.",1,"Esse é o padrão de um aviso legítimo."]],
+ l:"Mesmo assim, em caso de dúvida, abra o aplicativo do banco por conta própria."},
+{q:"Como você percebe que isso é um e-mail de phishing?",golpe:true,
+ m:`<div class="mk"><div class="tb"><span>☰</span><b>CorreioX</b><span style="margin-left:auto">1–50 de 2.619</span></div><div class="sub">Ação necessária: restituição disponível<u>Caixa de entrada</u></div><div class="from"><i class="av"></i><div><b>Receita Federal</b> &lt;restituicao@receita-gov-pagamentos.com&gt;<br><small>9:14 (há 8 horas)</small></div></div><div class="mb" style="padding-top:0">Olá, contribuinte.<br>Sua restituição de R$ 1.847,00 foi liberada. O prazo termina hoje, às 23h59.<br><span class="btnx">📎 restituicao.apk</span></div></div>`,
+ o:[["Pelo endereço do remetente, que só imita o nome de um órgão público.",1,"Órgãos públicos usam endereços .gov.br."],["Pelo e-mail citar um valor em reais.",0,"Citar valor não prova nada: dinheiro fácil é a isca do golpe."],["Pelo prazo curto: termina hoje às 23h59.",1,"Prazo curto é pressão para você não pensar."],["Pelo anexo .apk, que instala um aplicativo no celular.",1,"Pode ser um vírus, inclusive que mexe no Pix. Não abra anexos assim."]]},
+{q:"Como você percebe que isso é golpe?",golpe:true,
+ m:`<div class="mk chat"><div class="mh"><i class="av"></i><div>Número desconhecido<small>não está na sua agenda</small></div></div><div class="mb"><div class="bb">Oi, fiz um Pix de R$ 700 pra você por engano.</div><div class="bb">Devolve pra chave abaixo, é da minha esposa.</div><div class="bb">Pelo amor de Deus, é urgente!</div></div></div>`,
+ o:[["Pela pessoa dizer que fez o Pix por engano.",0,"Pode ser verdade: o golpe começa com um Pix real. O que denuncia é o pedido seguinte."],["Pela pressão emocional: “pelo amor de Deus, é urgente!”.",1,"Pressão para você não conferir."],["Pelo valor ser de R$ 700.",0,"O valor não é o sinal."],["Por pedir a devolução para uma chave diferente da que enviou.",1,"Depois o golpista aciona o MED e você perde duas vezes."]],
+ l:"Se recebeu um Pix por engano, devolva só pelo recurso de devolução do próprio app, que volta para quem enviou."}
+];
+let i=0,score=0;const box=document.getElementById("q");
+function show(){
+  if(i>=S.length){
+    const lvl=score>=5?"Escudo de aço":score>=3?"Escudo de bronze":"Em treinamento";
+    box.innerHTML=`<h3 class="qt">Você acertou ${score} de ${S.length} casos</h3><p class="qs">Nível: <b>${lvl}</b>. Um caso só conta como certo se você marcar todos os sinais reais e nenhum errado.</p><div class="qb"><button class="chk" id="r">Refazer</button></div>`;
+    document.getElementById("r").onclick=()=>{i=0;score=0;show()};return;
+  }
+  const c=S[i];
+  box.innerHTML=`<div class="steps">${S.map((_,k)=>(k?"<b></b>":"")+`<i class="${k<i?"on":k===i?"cur":""}"></i>`).join("")}</div><h3 class="qt">${c.q}</h3><p class="qs">Mais de uma resposta pode estar certa.</p><div class="qg"><div>${c.m}</div><div>${c.o.map((o,k)=>`<label class="opt"><input type="checkbox" data-k="${k}"><span>${o[0]}<em class="ex"></em></span></label>`).join("")}</div></div><div class="qf" hidden></div><div class="qb"><button class="chk" id="v" disabled>Verificar</button></div>`;
+  const ins=[...box.querySelectorAll("input")],v=document.getElementById("v");
+  ins.forEach(x=>x.onchange=()=>{v.disabled=!ins.some(y=>y.checked)});
+  v.onclick=()=>{
+    const ok=c.o.every((o,k)=>!!o[1]===ins[k].checked);if(ok)score++;
+    ins.forEach((x,k)=>{const o=c.o[k],lb=x.closest(".opt");x.disabled=true;
+      lb.classList.add(o[1]?(x.checked?"hit":"miss"):(x.checked?"bad":"x"));
+      if(o[1]||x.checked)lb.querySelector(".ex").textContent=o[2]});
+    const f=box.querySelector(".qf");f.hidden=false;
+    f.innerHTML=`<b>${c.golpe?"Era golpe.":"Era uma mensagem legítima."}</b> ${ok?"Você acertou tudo.":"Veja o que ficou diferente."}${c.l?" "+c.l:""}`;
+    v.textContent=i<S.length-1?"Próximo caso":"Ver resultado";v.onclick=()=>{i++;show()};
+  };
+}
+show();route();
+</script>
+</body>
+</html>
